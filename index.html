@@ -50,8 +50,8 @@ body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), v
 (function () {
   'use strict';
   var EN = /^en/i.test(navigator.language || '') || /na-lang=en/.test(window.name || '') || (function () { try { return localStorage.getItem('na.lang') === '"en"' || localStorage.getItem('na.lang') === 'en'; } catch (e) { return false; } })();
-  var T = EN ? { t: 'Enter the access key to open the atlas.', l: 'Access key', r: 'Remember on this device', b: 'Unlock', w: 'Checking…', e: 'Wrong key.', s: 'Show', h: 'Hide', n: 'This browser cannot decrypt the page (needs a modern browser over HTTPS or from disk).' }
-               : { t: 'Nhập key truy cập để mở atlas.', l: 'Key truy cập', r: 'Ghi nhớ trên thiết bị này', b: 'Mở khóa', w: 'Đang kiểm tra…', e: 'Key không đúng.', s: 'Hiện', h: 'Ẩn', n: 'Trình duyệt này không giải mã được trang (cần trình duyệt mới, mở qua HTTPS hoặc từ máy).' };
+  var T = EN ? { t: 'Enter the access key to open the atlas.', l: 'Access key', r: 'Remember on this device', b: 'Unlock', w: 'Checking…', e: 'Wrong key.', x: 'This key has expired.', s: 'Show', h: 'Hide', n: 'This browser cannot decrypt the page (needs a modern browser over HTTPS or from disk).' }
+               : { t: 'Nhập key truy cập để mở atlas.', l: 'Key truy cập', r: 'Ghi nhớ trên thiết bị này', b: 'Mở khóa', w: 'Đang kiểm tra…', e: 'Key không đúng.', x: 'Key này đã hết hạn.', s: 'Hiện', h: 'Ẩn', n: 'Trình duyệt này không giải mã được trang (cần trình duyệt mới, mở qua HTTPS hoặc từ máy).' };
   var unlockResolve;
   window.__naUnlocked = new Promise(function (r) { unlockResolve = r; });
   var ENC = window.NA_ENC;
@@ -59,25 +59,38 @@ body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), v
   var toB64 = function (u) { var s = ''; for (var i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
   var norm = function (k) { return String(k || '').replace(/[\s\-_]/g, '').toUpperCase(); };
   var STORE = 'na.lock.' + ENC.salt.slice(0, 12);
-  function derive(pass) {
+  var expired = function (exp) { return !!exp && Date.now() > exp; };
+  // access key → key-encryption key → try each slot → content key (raw bytes) and that slot's expiry
+  function unlock(pass) {
     return crypto.subtle.importKey('raw', new TextEncoder().encode(norm(pass)), 'PBKDF2', false, ['deriveKey']).then(function (km) {
-      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(ENC.salt), iterations: ENC.iter, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
-    });
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(ENC.salt), iterations: ENC.iter, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    }).then(function (kek) {
+      var aad = new TextEncoder().encode('atlas-than-kinh-3d/key');
+      return ENC.keys.reduce(function (p, slot) {
+        return p.catch(function () {
+          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(slot.iv), additionalData: aad }, kek, b64(slot.w))
+            .then(function (raw) { return { raw: new Uint8Array(raw), exp: slot.exp || 0 }; });
+        });
+      }, Promise.reject(new Error('start')));
+    }).then(function (r) { if (expired(r.exp)) throw new Error('expired'); return r; });
   }
-  function decrypt(key) {
-    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(ENC.iv), additionalData: new TextEncoder().encode(ENC.aad) }, key, b64(ENC.data)).then(function (buf) {
+  function decrypt(r) {
+    return crypto.subtle.importKey('raw', r.raw, { name: 'AES-GCM' }, false, ['decrypt']).then(function (key) {
+      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(ENC.iv), additionalData: new TextEncoder().encode(ENC.aad) }, key, b64(ENC.data));
+    }).then(function (buf) {
       var ds = new DecompressionStream('gzip');
       return new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
-    }).then(function (txt) { return { key: key, bundle: JSON.parse(txt) }; });
+    }).then(function (txt) { r.bundle = JSON.parse(txt); return r; });
   }
-  function remember(key, where) {
-    return crypto.subtle.exportKey('raw', key).then(function (raw) { try { where.setItem(STORE, toB64(new Uint8Array(raw))); } catch (e) { /* storage blocked */ } });
+  function remember(r, where) {
+    try { where.setItem(STORE, JSON.stringify({ k: toB64(r.raw), x: r.exp })); } catch (e) { /* storage blocked */ }
   }
   function stored() {
     var v = null;
-    try { v = sessionStorage.getItem(STORE) || localStorage.getItem(STORE); } catch (e) { v = null; }
-    if (!v) return Promise.reject(new Error('none'));
-    return crypto.subtle.importKey('raw', b64(v), { name: 'AES-GCM' }, true, ['decrypt']);
+    try { v = JSON.parse(sessionStorage.getItem(STORE) || localStorage.getItem(STORE)); } catch (e) { v = null; }
+    if (!v || !v.k) return Promise.reject(new Error('none'));
+    if (expired(v.x)) { try { sessionStorage.removeItem(STORE); localStorage.removeItem(STORE); } catch (e) { /* ignore */ } return Promise.reject(new Error('expired')); }
+    return Promise.resolve({ raw: b64(v.k), exp: v.x || 0 });
   }
   window.NA_LOCK = { forget: function () { try { sessionStorage.removeItem(STORE); localStorage.removeItem(STORE); } catch (e) { /* ignore */ } location.reload(); } };
   function boot(B) {
@@ -115,16 +128,17 @@ body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), v
       e.preventDefault();
       err.textContent = '';
       btn.disabled = true; btn.textContent = T.w;
-      derive(inp.value).then(decrypt).then(function (r) {
-        return remember(r.key, document.getElementById('lk-r').checked ? localStorage : sessionStorage).then(function () { boot(r.bundle); });
-      }).catch(function () { btn.disabled = false; btn.textContent = T.b; err.textContent = T.e; inp.select(); });
+      unlock(inp.value).then(decrypt).then(function (r) {
+        remember(r, document.getElementById('lk-r').checked ? localStorage : sessionStorage);
+        boot(r.bundle);
+      }).catch(function (x) { btn.disabled = false; btn.textContent = T.b; err.textContent = x && x.message === 'expired' ? T.x : T.e; inp.select(); });
     });
     setTimeout(function () { inp.focus(); }, 30);
   }
   function start() {
     if (!window.crypto || !crypto.subtle || typeof DecompressionStream === 'undefined') { ui(); document.getElementById('lk-e').textContent = T.n; return; }
-    var first = hashKey ? derive(hashKey).then(decrypt).then(function (r) { return remember(r.key, sessionStorage).then(function () { return r; }); }) : stored().then(decrypt);
-    first.then(function (r) { boot(r.bundle); }).catch(ui);
+    var first = hashKey ? unlock(hashKey).then(decrypt).then(function (r) { remember(r, sessionStorage); return r; }) : stored().then(decrypt);
+    first.then(function (r) { boot(r.bundle); }).catch(function (x) { ui(); if (x && x.message === 'expired') document.getElementById('lk-e').textContent = T.x; });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
