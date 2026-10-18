@@ -243,7 +243,7 @@ if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { err({ e: 'mail' }); inM.focus();
 if (!pend || pend.key !== key) pend = { key: key, dev: 'd' + hex(crypto.getRandomValues(new Uint8Array(12))) };
 pend.swap = !!swap;
 busy(T.sending);
-api({ op: 'otp', key: key, mail: mail, dev: pend.dev, swap: pend.swap }).then(function (r) {
+api({ op: 'otp', key: key, mail: mail, dev: pend.dev, swap: pend.swap, label: label() }).then(function (r) {
 idle();
 if (r.ok) { step(2); $('lk-t').textContent = T.sent.replace('%', r.m || mail); inC.value = ''; inC.focus(); }
 else if (r.e === 'full') step(3, r.d);
