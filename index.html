@@ -78,6 +78,9 @@ body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), v
     return crypto.subtle.importKey('raw', r.raw, { name: 'AES-GCM' }, false, ['decrypt']).then(function (key) {
       return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(ENC.iv), additionalData: new TextEncoder().encode(ENC.aad) }, key, b64(ENC.data));
     }).then(function (buf) {
+      // the encrypted payload (~13 MB of base64) is not needed any more once decrypted
+      ENC.data = null;
+      try { window.NA_ENC = null; } catch (e) { /* ignore */ }
       var ds = new DecompressionStream('gzip');
       return new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
     }).then(function (txt) { r.bundle = JSON.parse(txt); return r; });
@@ -107,6 +110,8 @@ body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), v
       var s = document.createElement('script');
       s.textContent = B.scripts[i][1] + '\n//# sourceURL=' + B.scripts[i][0];
       document.head.appendChild(s);
+      B.scripts[i] = null;
+      s.textContent = '';
     }
     unlockResolve();
   }
