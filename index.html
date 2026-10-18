@@ -1,13 +1,10 @@
 <!doctype html>
-<!-- Atlas Thần Kinh 3D · © 2026 Lê Hữu Sơn Hải (https://orcid.org/0009-0008-0293-4591) & Phạm Tuấn Kiệt (https://orcid.org/0009-0006-3284-7400). All rights reserved. -->
+<!-- © 2026 Lê Hữu Sơn Hải &amp; Phạm Tuấn Kiệt. All rights reserved. -->
 <html lang="vi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="author" content="Lê Hữu Sơn Hải (ORCID 0009-0008-0293-4591), Phạm Tuấn Kiệt (ORCID 0009-0006-3284-7400)">
-<meta name="copyright" content="© 2026 Lê Hữu Sơn Hải &amp; Phạm Tuấn Kiệt">
-<meta name="description" content="Atlas thần kinh tương tác cho ngành Khoa học thần kinh: não và neuron 3D, đường dẫn truyền, hệ điều biến, màng não – dịch não tủy – tưới máu, lát cắt kiểu MRI, mô phỏng điện sinh lý, ca lâm sàng với ICD-11 · DSM-5-TR; tên cấu trúc Việt – Anh – Latin.">
 <title>Atlas Thần Kinh 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +14,18 @@
   "imports": {
     "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  },
+  "integrity": {
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js": "sha384-qOubuRxWZ0I7rXTjcuhcKNHKvPM7q0ztN8/82sJnxnyKS0OXTeB5FsIcysc2T9EY",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/controls/OrbitControls.js": "sha384-aJoe4qqS/DgF2jh9njAuvA6QIveJYoCuYOfYjdFY8P3eawzmc9bEQ40jq2TvOyuP",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/environments/RoomEnvironment.js": "sha384-9ItPPH2vgKbkvgrqTKq7ptGYe+WuAnqlZtlqleJW4/CJjnM5R7C+efD6iS7ADPJ9",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/loaders/GLTFLoader.js": "sha384-VoIGt4hjsBN2DcfqRsMnLLSUBl1bpLaVmkZ4MO/qESaCNDuISU6ScEtXt1/j3IyF",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/utils/BufferGeometryUtils.js": "sha384-wOjwauvHlJO7K6APr7FmMGH2nupQa3Ndzas9bJZhsAMOK055efJud8ns4aYmASKv",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/loaders/DRACOLoader.js": "sha384-JXQZO/R0iwDZEGdxk3JbWoAzs35LfUvP7bmWw71AII5McToVZHJhsRVwOzYs54th",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/lines/LineMaterial.js": "sha384-tnBmSeyngVndBaL3DnDMNFmR51vwEdRTfcm1PdIxcicWJwV735yij/oQO8kIUM3h",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/lines/LineSegments2.js": "sha384-nm+9Od/cYIb15jGaA1U2Geoo18K/i9fF2fZ4KbI2rZydtfYxqwtWRlbvdVfiECU5",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/lines/LineSegmentsGeometry.js": "sha384-HoyMSjfTC9HwQuRWVnmRh6XaXt8ZedLc03GaOyFmHtZNZd56Npb28nD2Km2fbibP",
+    "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/libs/meshopt_decoder.module.js": "sha384-zhZjnxc+3j2IeX2itXt+5CnnC0YleVRvu5EOaj733tRp38E9hBPnZjweEWX2kN7y"
   }
 }
 </script>
@@ -25,132 +34,278 @@
 @media (prefers-color-scheme: dark) { :root { --bg: #0d1116; --card: #151a21; --ink: #e6eaf0; --ink2: #a8b2bf; --ink3: #7f8a98; --line: #28303b; --acc: #a88cf0; --acc2: #bba4f5; --bad: #e07070; } }
 html, body { height: 100%; margin: 0; }
 body.is-locked { background: radial-gradient(120% 90% at 50% 30%, var(--card), var(--bg)); color: var(--ink); font: 400 14px/1.55 'Be Vietnam Pro', system-ui, sans-serif; display: grid; place-items: center; padding: 16px; box-sizing: border-box; }
-.lk { width: min(420px, 100%); background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 14px 40px rgba(0,0,0,.12); padding: 26px 26px 20px; }
+.lk { width: min(420px, 100%); background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 14px 40px rgba(0,0,0,.12); padding: 26px 26px 20px; box-sizing: border-box; }
+.lk [hidden] { display: none !important; }
 .lk-brand { display: flex; align-items: center; gap: 10px; font: 600 21px 'Literata', Georgia, serif; }
 .lk-brand em { color: var(--acc); font-style: italic; font-weight: 500; }
 .lk-brand svg { width: 34px; height: 34px; color: var(--acc); }
 .lk p { color: var(--ink2); margin: 8px 0 16px; font-size: 13.5px; }
 .lk label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); margin-bottom: 6px; }
-.lk input[type=password], .lk input[type=text] { width: 100%; box-sizing: border-box; height: 44px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); font: 600 16px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .06em; padding: 0 12px; outline: none; }
+.lk input[type=password], .lk input[type=text], .lk input[type=email] { width: 100%; box-sizing: border-box; height: 44px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); font: 600 16px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .06em; padding: 0 12px; outline: none; }
+.lk input[type=email] { font: 500 15px 'Be Vietnam Pro', system-ui, sans-serif; letter-spacing: 0; }
 .lk input:focus { border-color: var(--acc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 22%, transparent); }
 .lk-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 14px; font-size: 13px; color: var(--ink2); }
 .lk-row input { accent-color: var(--acc); }
+.lk-step { margin-bottom: 14px; }
+.lk-step .lk-row:last-child { margin-bottom: 0; }
+.lk-list { margin: 0 0 4px; padding-left: 18px; color: var(--ink); font-size: 13.5px; }
+.lk-list li { margin: 2px 0; }
 .lk button { width: 100%; height: 44px; border: 0; border-radius: 10px; background: var(--acc); color: #fff; font: 700 14.5px 'Be Vietnam Pro', system-ui, sans-serif; cursor: pointer; }
 .lk button:hover { background: var(--acc2); }
 .lk button[disabled] { opacity: .6; cursor: progress; }
 .lk-err { color: var(--bad); font-size: 13px; font-weight: 600; min-height: 20px; margin-top: 10px; }
 .lk-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink3); }
-.lk-foot a { color: var(--ink2); text-decoration: none; }
-.lk-foot a:hover { color: var(--acc); }
-.orc { display: inline-grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; background: #A6CE39; color: #fff; font: 700 7.5px system-ui, sans-serif; vertical-align: 1px; }
 .lk-show { background: none !important; color: var(--ink3) !important; width: auto !important; height: auto !important; font-size: 12px !important; padding: 0; }
+.lk-show:hover { color: var(--acc) !important; }
+.lk-retry { margin-left: 4px; text-decoration: underline; }
 </style>
 <script src="app.enc.js"></script>
 <script>
 (function () {
-  'use strict';
-  var EN = /^en/i.test(navigator.language || '') || /na-lang=en/.test(window.name || '') || (function () { try { return localStorage.getItem('na.lang') === '"en"' || localStorage.getItem('na.lang') === 'en'; } catch (e) { return false; } })();
-  var T = EN ? { t: 'Enter the access key to open the atlas.', l: 'Access key', r: 'Remember on this device', b: 'Unlock', w: 'Checking…', e: 'Wrong key.', x: 'This key has expired.', s: 'Show', h: 'Hide', n: 'This browser cannot decrypt the page (needs a modern browser over HTTPS or from disk).' }
-               : { t: 'Nhập key truy cập để mở atlas.', l: 'Key truy cập', r: 'Ghi nhớ trên thiết bị này', b: 'Mở khóa', w: 'Đang kiểm tra…', e: 'Key không đúng.', x: 'Key này đã hết hạn.', s: 'Hiện', h: 'Ẩn', n: 'Trình duyệt này không giải mã được trang (cần trình duyệt mới, mở qua HTTPS hoặc từ máy).' };
-  var unlockResolve;
-  window.__naUnlocked = new Promise(function (r) { unlockResolve = r; });
-  var ENC = window.NA_ENC;
-  var b64 = function (s) { var bin = atob(s), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
-  var toB64 = function (u) { var s = ''; for (var i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
-  var norm = function (k) { return String(k || '').replace(/[\s\-_]/g, '').toUpperCase(); };
-  var STORE = 'na.lock.' + ENC.salt.slice(0, 12);
-  var expired = function (exp) { return !!exp && Date.now() > exp; };
-  // access key → key-encryption key → try each slot → content key (raw bytes) and that slot's expiry
-  function unlock(pass) {
-    return crypto.subtle.importKey('raw', new TextEncoder().encode(norm(pass)), 'PBKDF2', false, ['deriveKey']).then(function (km) {
-      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(ENC.salt), iterations: ENC.iter, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-    }).then(function (kek) {
-      var aad = new TextEncoder().encode('atlas-than-kinh-3d/key');
-      return ENC.keys.reduce(function (p, slot) {
-        return p.catch(function () {
-          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(slot.iv), additionalData: aad }, kek, b64(slot.w))
-            .then(function (raw) { return { raw: new Uint8Array(raw), exp: slot.exp || 0 }; });
-        });
-      }, Promise.reject(new Error('start')));
-    }).then(function (r) { if (expired(r.exp)) throw new Error('expired'); return r; });
-  }
-  function decrypt(r) {
-    return crypto.subtle.importKey('raw', r.raw, { name: 'AES-GCM' }, false, ['decrypt']).then(function (key) {
-      return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(ENC.iv), additionalData: new TextEncoder().encode(ENC.aad) }, key, b64(ENC.data));
-    }).then(function (buf) {
-      // the encrypted payload (~13 MB of base64) is not needed any more once decrypted
-      ENC.data = null;
-      try { window.NA_ENC = null; } catch (e) { /* ignore */ }
-      var ds = new DecompressionStream('gzip');
-      return new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
-    }).then(function (txt) { r.bundle = JSON.parse(txt); return r; });
-  }
-  function remember(r, where) {
-    try { where.setItem(STORE, JSON.stringify({ k: toB64(r.raw), x: r.exp })); } catch (e) { /* storage blocked */ }
-  }
-  function stored() {
-    var v = null;
-    try { v = JSON.parse(sessionStorage.getItem(STORE) || localStorage.getItem(STORE)); } catch (e) { v = null; }
-    if (!v || !v.k) return Promise.reject(new Error('none'));
-    if (expired(v.x)) { try { sessionStorage.removeItem(STORE); localStorage.removeItem(STORE); } catch (e) { /* ignore */ } return Promise.reject(new Error('expired')); }
-    return Promise.resolve({ raw: b64(v.k), exp: v.x || 0 });
-  }
-  window.NA_LOCK = { forget: function () { try { sessionStorage.removeItem(STORE); localStorage.removeItem(STORE); } catch (e) { /* ignore */ } location.reload(); } };
-  function boot(B) {
-    var st = document.createElement('style');
-    st.textContent = B.css;
-    document.head.appendChild(st);
-    var lc = document.getElementById('lock-css');
-    if (lc) lc.remove();
-    document.body.className = '';
-    document.body.innerHTML = B.body;
-    window.NA_BUNDLE = B.files;
-    window.NA_LOCKED = true;
-    for (var i = 0; i < B.scripts.length; i++) {
-      var s = document.createElement('script');
-      s.textContent = B.scripts[i][1] + '\n//# sourceURL=' + B.scripts[i][0];
-      document.head.appendChild(s);
-      B.scripts[i] = null;
-      s.textContent = '';
-    }
-    unlockResolve();
-  }
-  // key in the address fragment (#k=KEY or #k=KEY&chapter) — never sent to the server
-  var hashKey = null;
-  var m = /^#k=([^&]+)(?:&(.*))?$/.exec(location.hash || '');
-  if (m) { hashKey = decodeURIComponent(m[1]); try { history.replaceState(null, '', location.pathname + location.search + (m[2] ? '#' + m[2] : '')); } catch (e) { /* ignore */ } }
-  function ui() {
-    document.body.className = 'is-locked';
-    document.body.innerHTML = '<form class="lk" autocomplete="on">' +
-      '<div class="lk-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="17" r="6.2" fill="currentColor" opacity="0.18"/><circle cx="15" cy="17" r="4.2" fill="currentColor"/><path d="M15 11 L13 4 M10 14 L3.5 11 M10.5 21 L4 25 M19 13 L22 6.5 M19.6 20 L25 24 L36 34" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="29" cy="28" r="1.9" fill="currentColor"/><circle cx="32.5" cy="31" r="1.9" fill="currentColor"/></svg><span>Atlas Thần Kinh <em>3D</em></span></div>' +
-      '<p>' + T.t + '</p><label for="lk-k">' + T.l + '</label><input id="lk-k" name="password" type="password" autocomplete="current-password" spellcheck="false" autocapitalize="characters" required>' +
-      '<div class="lk-row"><span><input type="checkbox" id="lk-r"> <label for="lk-r" style="display:inline;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px;color:inherit">' + T.r + '</label></span><button type="button" class="lk-show" id="lk-s">' + T.s + '</button></div>' +
-      '<button type="submit" id="lk-b">' + T.b + '</button><div class="lk-err" id="lk-e" role="alert"></div>' +
-      '<div class="lk-foot">© 2026 <a href="https://orcid.org/0009-0008-0293-4591" target="_blank" rel="noopener">Lê Hữu Sơn Hải <span class="orc">iD</span></a> &amp; <a href="https://orcid.org/0009-0006-3284-7400" target="_blank" rel="noopener">Phạm Tuấn Kiệt <span class="orc">iD</span></a></div></form>';
-    var f = document.querySelector('.lk'), inp = document.getElementById('lk-k'), btn = document.getElementById('lk-b'), err = document.getElementById('lk-e');
-    document.getElementById('lk-s').addEventListener('click', function () { var sh = inp.type === 'password'; inp.type = sh ? 'text' : 'password'; this.textContent = sh ? T.h : T.s; });
-    f.addEventListener('submit', function (e) {
-      e.preventDefault();
-      err.textContent = '';
-      btn.disabled = true; btn.textContent = T.w;
-      unlock(inp.value).then(decrypt).then(function (r) {
-        remember(r, document.getElementById('lk-r').checked ? localStorage : sessionStorage);
-        boot(r.bundle);
-      }).catch(function (x) { btn.disabled = false; btn.textContent = T.b; err.textContent = x && x.message === 'expired' ? T.x : T.e; inp.select(); });
-    });
-    setTimeout(function () { inp.focus(); }, 30);
-  }
-  function start() {
-    if (!window.crypto || !crypto.subtle || typeof DecompressionStream === 'undefined') { ui(); document.getElementById('lk-e').textContent = T.n; return; }
-    var first = hashKey ? unlock(hashKey).then(decrypt).then(function (r) { remember(r, sessionStorage); return r; }) : stored().then(decrypt);
-    first.then(function (r) { boot(r.bundle); }).catch(function (x) { ui(); if (x && x.message === 'expired') document.getElementById('lk-e').textContent = T.x; });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+'use strict';
+var EN = /^en/i.test(navigator.language || '') || /na-lang=en/.test(window.name || '') || (function () { try { return localStorage.getItem('na.lang') === '"en"' || localStorage.getItem('na.lang') === 'en'; } catch (e) { return false; } })();
+var unlockResolve;
+window.__naUnlocked = new Promise(function (r) { unlockResolve = r; });
+var b64 = function (s) { var bin = atob(s), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
+var toB64 = function (u) { var s = ''; for (var i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+var norm = function (k) { return String(k || '').replace(/[\s\-_]/g, '').toUpperCase(); };
+var T = EN ? {
+t: 'Enter your access key and email. A confirmation code will be emailed to you; each key opens on a limited number of devices.',
+l: 'Access key', m: 'Email', c: '6-digit code from the email', s: 'Show', h: 'Hide',
+send: 'Send code', sending: 'Sending…', open: 'Unlock', checking: 'Checking…', opening: 'Opening…',
+sent: 'Code sent to %. Check the Spam / Promotions folders too; it is valid for 10 minutes.',
+back: 'Change key / email', re: 'Send again', cancel: 'Cancel', retry: 'Try again', code6: 'Enter the 6 digits from the email.',
+full: 'This key is already in use on all its devices:', last: 'last used',
+swapq: 'To use this device, replace the device unused for the longest time. That device will have to be activated again.',
+swap: 'Replace it with this device',
+n: 'This browser cannot decrypt the page (needs a modern browser over HTTPS or from disk).'
+} : {
+t: 'Nhập key truy cập và email của bạn. Mã xác nhận sẽ được gửi qua email; mỗi key chỉ mở được trên số thiết bị giới hạn.',
+l: 'Key truy cập', m: 'Email', c: 'Mã 6 số trong email', s: 'Hiện', h: 'Ẩn',
+send: 'Gửi mã', sending: 'Đang gửi…', open: 'Mở khóa', checking: 'Đang kiểm tra…', opening: 'Đang mở…',
+sent: 'Đã gửi mã tới %. Xem cả mục Thư rác / Quảng cáo; mã có hiệu lực 10 phút.',
+back: 'Đổi key / email', re: 'Gửi lại mã', cancel: 'Hủy', retry: 'Thử lại', code6: 'Nhập đủ 6 số trong email.',
+full: 'Key này đã dùng đủ số thiết bị:', last: 'dùng lần cuối',
+swapq: 'Muốn dùng máy này, bạn có thể thay thiết bị lâu không dùng nhất. Thiết bị đó sẽ phải kích hoạt lại.',
+swap: 'Thay bằng máy này',
+n: 'Trình duyệt này không giải mã được trang (cần trình duyệt mới, mở qua HTTPS hoặc từ máy).'
+};
+var E = EN ? {
+key: 'Wrong key.', off: 'This key has been disabled.', exp: 'This key has expired.', mail: 'Invalid email.',
+bound: 'This key is linked to another email (%).', rate: 'Too many codes requested. Try again in an hour.',
+quota: 'Too many emails were sent today. Try again tomorrow.', code: 'Wrong code (% tries left).',
+old: 'The code has expired or was entered wrongly too many times. Press "Send again".',
+swap: 'This key has replaced devices too often in the last 30 days. Contact the administrator.',
+dev: 'This device was removed from its key. Activate it again.', build: 'The site has just been updated. Wait 1–2 minutes, then reload.',
+net: 'Cannot reach the unlock server. Check your connection and try again.', srv: 'The unlock server is having trouble. Try again later.', bad: 'Invalid request.'
+} : {
+key: 'Key không đúng.', off: 'Key này đã bị khóa.', exp: 'Key này đã hết hạn.', mail: 'Email không hợp lệ.',
+bound: 'Key này đã gắn với một email khác (%).', rate: 'Bạn đã yêu cầu mã quá nhiều lần. Thử lại sau 1 giờ.',
+quota: 'Hôm nay hệ thống đã gửi quá nhiều email. Thử lại vào ngày mai.', code: 'Mã không đúng (còn % lần thử).',
+old: 'Mã đã hết hạn hoặc nhập sai quá nhiều lần. Bấm "Gửi lại mã".',
+swap: 'Key này đã thay thiết bị quá nhiều lần trong 30 ngày. Hãy liên hệ người quản trị.',
+dev: 'Thiết bị này đã bị gỡ khỏi key. Hãy kích hoạt lại.', build: 'Trang vừa được cập nhật. Đợi 1–2 phút rồi tải lại trang.',
+net: 'Không kết nối được máy chủ mở khóa. Kiểm tra mạng rồi thử lại.', srv: 'Máy chủ mở khóa đang gặp lỗi. Thử lại sau.', bad: 'Yêu cầu không hợp lệ.'
+};
+var API = "https://script.google.com/macros/s/AKfycbwrzx5pAFGNd4rg39RnedGLpjXUMKw2pW5aZ52pUODEIlu-VR3BBfwYVQTojkNwNsA2/exec";
+var ENC = window.__A, DAY = 864e5, GRACE = 30 * DAY, RECHECK = DAY / 4, skew = 0;
+var BRAND = '<div class="lk-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="17" r="6.2" fill="currentColor" opacity="0.18"/><circle cx="15" cy="17" r="4.2" fill="currentColor"/><path d="M15 11 L13 4 M10 14 L3.5 11 M10.5 21 L4 25 M19 13 L22 6.5 M19.6 20 L25 24 L36 34" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="29" cy="28" r="1.9" fill="currentColor"/><circle cx="32.5" cy="31" r="1.9" fill="currentColor"/></svg><span>Atlas Thần Kinh <em>3D</em></span></div>';
+var noop = function () {};
+var $ = function (id) { return document.getElementById(id); };
+var utf8 = function (s) { return new TextEncoder().encode(s); };
+var hex = function (u) { var s = ''; for (var i = 0; i < u.length; i++) s += (u[i] < 16 ? '0' : '') + u[i].toString(16); return s; };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var revoked = function (e) { return e === 'dev' || e === 'off' || e === 'exp'; };
+function idb(mode, fn) {
+return new Promise(function (res, rej) {
+var o = indexedDB.open('na-ac', 1);
+o.onupgradeneeded = function () { o.result.createObjectStore('s'); };
+o.onerror = function () { rej(o.error); };
+o.onsuccess = function () {
+var db = o.result, tx = db.transaction('s', mode), rq = fn(tx.objectStore('s'));
+tx.oncomplete = function () { db.close(); res(rq.result); };
+tx.onerror = tx.onabort = function () { db.close(); rej(tx.error); };
+};
+});
+}
+var load = function () { return idb('readonly', function (s) { return s.get('a'); }); };
+var save = function (A) { return idb('readwrite', function (s) { return s.put(A, 'a'); }); };
+var wipe = function () { return idb('readwrite', function (s) { return s.delete('a'); }); };
+function api(o) {
+o.lang = EN ? 'en' : 'vi';
+return fetch(API, { method: 'POST', body: JSON.stringify(o) }).then(function (r) {
+return r.json().catch(function () { return { e: 'srv' }; });
+}, function () { return { e: 'net' }; });
+}
+function signed(A, op, again) {
+var t = Date.now() + skew;
+var msg = op === 'open' ? 'open|' + A.dev + '|' + ENC.b + '|' + t : 'drop|' + A.dev + '|' + t;
+return crypto.subtle.sign('HMAC', A.sec, utf8(msg)).then(function (s) {
+return api({ op: op, dev: A.dev, b: ENC.b, t: t, sig: toB64(new Uint8Array(s)) });
+}).then(function (r) {
+if (r.e === 'time' && r.t && !again) { skew = r.t - Date.now(); return signed(A, op, true); }
+return r;
+});
+}
+function keep(A, raw) {
+return crypto.subtle.importKey('raw', b64(raw), { name: 'AES-GCM' }, false, ['decrypt']).then(function (k) {
+A.b = ENC.b; A.k = k; A.at = Date.now();
+return save(A).catch(noop).then(function () { return k; });
+});
+}
+function decrypt(k) {
+return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(ENC.i), additionalData: utf8('a3/d') }, k, b64(ENC.d)).then(function (buf) {
+ENC.d = null;
+try { window.__A = null; } catch (e) {  }
+return new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+}).then(function (txt) { return JSON.parse(txt); });
+}
+function label() {
+var u = navigator.userAgent || '';
+var b = /Edg/.test(u) ? 'Edge' : /OPR\//.test(u) ? 'Opera' : /coc_coc/i.test(u) ? 'Cốc Cốc' : /Firefox\/|FxiOS/.test(u) ? 'Firefox' : /Chrome\/|CriOS/.test(u) ? 'Chrome' : /Safari\//.test(u) ? 'Safari' : 'Web';
+var o = /iPhone/.test(u) ? 'iPhone' : /iPad/.test(u) ? 'iPad' : /Android/.test(u) ? 'Android' : /Windows/.test(u) ? 'Windows' : /Mac OS X/.test(u) ? 'macOS' : /CrOS/.test(u) ? 'ChromeOS' : /Linux/.test(u) ? 'Linux' : '?';
+return b + ' · ' + o;
+}
+window.NA_LOCK = { mode: 'device', forget: function () {
+load().then(function (A) { if (A && A.dev && A.sec) return signed(A, 'drop'); }).catch(noop)
+.then(function () { return wipe(); }).catch(noop)
+.then(function () { location.reload(); });
+} };
+function boot(B) {
+var st = document.createElement('style');
+st.textContent = B.css;
+document.head.appendChild(st);
+var lc = document.getElementById('lock-css');
+if (lc) lc.remove();
+document.body.className = '';
+document.body.innerHTML = B.body;
+window.NA_BUNDLE = B.files;
+window.NA_LOCKED = true;
+for (var i = 0; i < B.scripts.length; i++) {
+var s = document.createElement('script');
+s.textContent = B.scripts[i][1] + '\n//# sourceURL=' + B.scripts[i][0];
+document.head.appendChild(s);
+B.scripts[i] = null;
+s.textContent = '';
+}
+unlockResolve();
+}
+function err(r, retry) {
+var el = $('lk-e');
+if (!el) return;
+el.textContent = (E[r.e] || E.srv).replace('%', r.e === 'code' ? r.n : (r.m || ''));
+if (retry) {
+var b = document.createElement('button');
+b.type = 'button'; b.className = 'lk-show lk-retry'; b.textContent = T.retry;
+b.addEventListener('click', retry);
+el.appendChild(document.createTextNode(' '));
+el.appendChild(b);
+}
+}
+function wait(text) {
+document.body.className = 'is-locked';
+document.body.innerHTML = '<div class="lk">' + BRAND + '<p>' + text + '</p></div>';
+}
+var stage = 1, pend = null;
+function ui() {
+document.body.className = 'is-locked';
+document.body.innerHTML = '<form class="lk" autocomplete="on" novalidate>' + BRAND +
+'<p id="lk-t">' + T.t + '</p>' +
+'<div class="lk-step" id="lk-1"><label for="lk-k">' + T.l + '</label><input id="lk-k" name="password" type="password" autocomplete="current-password" spellcheck="false" autocapitalize="characters">' +
+'<div class="lk-row"><span></span><button type="button" class="lk-show" id="lk-s">' + T.s + '</button></div>' +
+'<label for="lk-m">' + T.m + '</label><input id="lk-m" name="email" type="email" autocomplete="username" inputmode="email" spellcheck="false" autocapitalize="off"></div>' +
+'<div class="lk-step" id="lk-2" hidden><label for="lk-c">' + T.c + '</label><input id="lk-c" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" spellcheck="false">' +
+'<div class="lk-row"><button type="button" class="lk-show" id="lk-x">' + T.back + '</button><button type="button" class="lk-show" id="lk-re">' + T.re + '</button></div></div>' +
+'<div class="lk-step" id="lk-3" hidden></div>' +
+'<button type="submit" id="lk-b">' + T.send + '</button><div class="lk-err" id="lk-e" role="alert"></div>' +
+'<div class="lk-foot">© 2026 Lê Hữu Sơn Hải &amp; Phạm Tuấn Kiệt</div></form>';
+var inK = $('lk-k'), inM = $('lk-m'), inC = $('lk-c'), btn = $('lk-b');
+stage = 1;
+function step(n, devs) {
+stage = n;
+$('lk-1').hidden = n !== 1; $('lk-2').hidden = n !== 2; $('lk-3').hidden = n !== 3;
+btn.textContent = n === 1 ? T.send : n === 2 ? T.open : T.swap;
+$('lk-t').textContent = n === 3 ? T.full : T.t;
+$('lk-e').textContent = '';
+if (n === 3) {
+$('lk-3').innerHTML = '<ul class="lk-list">' + (devs || []).map(function (d) {
+return '<li>' + esc(d[0]) + (d[1] ? ' · ' + T.last + ' ' + new Date(d[1]).toLocaleDateString(EN ? 'en-GB' : 'vi-VN') : '') + '</li>';
+}).join('') + '</ul><p>' + T.swapq + '</p><div class="lk-row"><button type="button" class="lk-show" id="lk-no">' + T.cancel + '</button><span></span></div>';
+$('lk-no').addEventListener('click', function () { step(1); });
+}
+}
+function busy(text) { btn.disabled = true; btn.textContent = text; }
+function idle() { btn.disabled = false; btn.textContent = stage === 1 ? T.send : stage === 2 ? T.open : T.swap; }
+function send(swap) {
+var key = norm(inK.value), mail = inM.value.trim();
+if (!key) { err({ e: 'key' }); inK.focus(); return; }
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { err({ e: 'mail' }); inM.focus(); return; }
+if (!pend || pend.key !== key) pend = { key: key, dev: 'd' + hex(crypto.getRandomValues(new Uint8Array(12))) };
+pend.swap = !!swap;
+busy(T.sending);
+api({ op: 'otp', key: key, mail: mail, dev: pend.dev, swap: pend.swap }).then(function (r) {
+idle();
+if (r.ok) { step(2); $('lk-t').textContent = T.sent.replace('%', r.m || mail); inC.value = ''; inC.focus(); }
+else if (r.e === 'full') step(3, r.d);
+else err(r);
+});
+}
+function verify() {
+var code = inC.value.replace(/\D/g, '');
+if (code.length !== 6) { $('lk-e').textContent = T.code6; inC.focus(); return; }
+var raw = crypto.getRandomValues(new Uint8Array(32)), sec = toB64(raw);
+busy(T.checking);
+crypto.subtle.importKey('raw', raw, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']).then(function (sk) {
+raw.fill(0);
+return api({ op: 'verify', key: pend.key, dev: pend.dev, code: code, sec: sec, label: label(), b: ENC.b }).then(function (r) {
+if (!r.ok) { idle(); if (r.e === 'full') step(3, r.d); else { err(r); inC.select(); } return; }
+busy(T.opening);
+return keep({ dev: pend.dev, sec: sk }, r.k).then(decrypt).then(boot);
+});
+}).catch(function () { idle(); err({ e: 'srv' }); });
+}
+$('lk-s').addEventListener('click', function () { var sh = inK.type === 'password'; inK.type = sh ? 'text' : 'password'; this.textContent = sh ? T.h : T.s; });
+$('lk-x').addEventListener('click', function () { step(1); inK.focus(); });
+$('lk-re').addEventListener('click', function () { if (!btn.disabled) send(pend && pend.swap); });
+inC.addEventListener('input', function () { if (inC.value.replace(/\D/g, '').length === 6 && !btn.disabled) verify(); });
+document.querySelector('.lk').addEventListener('submit', function (e) {
+e.preventDefault();
+if (btn.disabled) return;
+if (stage === 2) verify(); else send(stage === 3);
+});
+setTimeout(function () { inK.focus(); }, 30);
+}
+function recheck(A) {
+if (Date.now() - (A.at || 0) < RECHECK) return;
+signed(A, 'open').then(function (r) {
+if (r.ok) { A.at = Date.now(); save(A).catch(noop); } else if (revoked(r.e)) wipe().catch(noop);
+}).catch(noop);
+}
+function reopen(A) {
+wait(T.opening);
+return signed(A, 'open').then(function (r) {
+if (r.ok) return keep(A, r.k).then(decrypt).then(boot);
+if (revoked(r.e)) wipe().catch(noop);
+ui();
+err(r, r.e === 'net' || r.e === 'srv' || r.e === 'build' ? function () { reopen(A); } : null);
+});
+}
+function start() {
+if (!window.crypto || !crypto.subtle || typeof DecompressionStream === 'undefined' || !window.fetch) { ui(); $('lk-e').textContent = T.n; return; }
+load().catch(function () { return null; }).then(function (A) {
+if (A && A.dev && A.sec && A.k && A.b === ENC.b && Date.now() - (A.at || 0) < GRACE) {
+return decrypt(A.k).then(function (B) { boot(B); recheck(A); }, function () { return reopen(A); });
+}
+if (A && A.dev && A.sec) return reopen(A);
+ui();
+}).catch(function () { ui(); err({ e: 'srv' }); });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
 </head>
 <body class="is-locked">
-<noscript>Atlas Thần Kinh 3D cần JavaScript. © 2026 Lê Hữu Sơn Hải &amp; Phạm Tuấn Kiệt.</noscript>
+<noscript>JavaScript is required.</noscript>
 <script type="module">
   await window.__naUnlocked;
   try {
