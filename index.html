@@ -181,6 +181,7 @@ document.body.className = '';
 document.body.innerHTML = B.body;
 window.NA_BUNDLE = B.files;
 window.NA_LOCKED = true;
+if (B.media) window.NA_MEDIA = B.media;
 for (var i = 0; i < B.scripts.length; i++) {
 var s = document.createElement('script');
 s.textContent = B.scripts[i][1] + '\n//# sourceURL=' + B.scripts[i][0];
